@@ -15,7 +15,7 @@ class MyclassController extends Controller
      */
      public function index($school_id)
      {
-       return ($school_id > 0)? ClassResource::collection(Myclass::where('school_id', $school_id)->get()):response()->json([
+       return ($school_id > 0)? ClassResource::collection(Myclass::bySchool($school_id)->get()):response()->json([
          'Invalid School id: '. $school_id,
          404
        ]);
@@ -47,7 +47,7 @@ class MyclassController extends Controller
       $tb->school_id = \Auth::user()->school_id;
       $tb->group = (!empty($request->group))?$request->group:'';
       $tb->save();
-      return back()->with('status', 'Created');
+      return back()->with('status', __('Created'));
     }
 
     /**

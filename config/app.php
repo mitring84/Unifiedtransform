@@ -167,7 +167,8 @@ return [
         /*
          * Package Service Providers...
          */
-
+        Mavinoo\LaravelBatch\LaravelBatchServiceProvider::class,
+        Lab404\Impersonate\ImpersonateServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -176,8 +177,6 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        Mavinoo\LaravelBatch\LaravelBatchServiceProvider::class,
-        Rap2hpoutre\LaravelLogViewer\LaravelLogViewerServiceProvider::class,
     ],
 
     /*

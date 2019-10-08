@@ -1,5 +1,3 @@
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css"
-    rel="stylesheet">
 <div class="table-responsive">
     <form action="{{url('school/promote-students')}}" method="post">
         {{ csrf_field() }}
@@ -8,13 +6,13 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Code</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Left School</th>
-                    <th scope="col">From Session</th>
-                    <th scope="col">To Session</th>
-                    <th scope="col">From Section</th>
-                    <th scope="col">To Section</th>
+                    <th scope="col">@lang('Code')</th>
+                    <th scope="col">@lang('Name')</th>
+                    <th scope="col">@lang('Left School')</th>
+                    <th scope="col">@lang('From Session')</th>
+                    <th scope="col">@lang('To Session')</th>
+                    <th scope="col">@lang('From Section')</th>
+                    <th scope="col">@lang('To Section')</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,28 +26,35 @@
                     <td>
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" name="left_school{{$loop->index}}"> Left
+                                <input type="checkbox" name="left_school{{$loop->index}}"> @lang('Left')
                             </label>
                         </div>
                     </td>
                     <td>
-                        <small>{{$student->studentInfo['session']}}</small>
+                        <small>
+                            {{$student->session}}
+                            @if($student->session == now()->year || $student->session > now()->year)
+                            <span class="label label-success">@lang('Promoted/New')</span>
+                            @else
+                            <span class="label label-danger">@lang('Not Promoted')</span>
+                            @endif
+                        </small>
                     </td>
                     <td>
                         <input class="form-control datepicker" name="to_session[]"
                             value="{{date('Y', strtotime('+1 year'))}}">
                     </td>
                     <td style="text-align: center;">
-                        <small>Class: {{$student->section->class->class_number}} - Section:
+                        <small>@lang('Class'): {{$student->section->class->class_number}} - @lang('Section'):
                             {{$student->section->section_number}}</small>
                     </td>
                     <td>
-                        <select id="to_section" class="form-control" name="to_section[]">
+                        <select id="to_section" class="form-control" name="to_section[]" required>
                             @foreach($classes as $class)
                             @foreach($class->sections as $section)
                             <option value="{{$section->id}}">
-                                Class: {{$class->class_number}} -
-                                Section: {{$section->section_number}}
+                                @lang('Class'): {{$class->class_number}} -
+                                @lang('Section'): {{$section->section_number}}
                             </option>
                             @endforeach
                             @endforeach
@@ -60,11 +65,11 @@
             </tbody>
         </table>
         <div style="text-align:center;">
-            <input type="submit" class="btn btn-primary" value="Submit">
+            <input type="submit" class="btn btn-primary" value="@lang('Submit')">
         </div>
     </form>
 </div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
+
 <script>
     $(function () {
         $('.datepicker').datepicker({

@@ -1,20 +1,22 @@
 <?php
 
+use App\School;
+use App\Myclass;
 use Faker\Generator as Faker;
 
-$factory->define(App\Myclass::class, function (Faker $faker) {
+$factory->define(Myclass::class, function (Faker $faker) {
     static $class_number = 0;
-    if($class_number > 8){
-      return [
-      	'class_number' => $class_number++,//$faker->randomDigitNotNull,
-        'school_id' => $faker->randomElement(App\School::pluck('id')->toArray()),
-        'group' => $faker->randomElement(['science','commerce','arts']),
-      ];
-    } else {
-      return [
-      	'class_number' => $class_number++,//$faker->randomDigitNotNull,
-        'school_id' => $faker->randomElement(App\School::pluck('id')->toArray()),
-        'group' => '',
-      ];
-    }
+
+    return [
+        'class_number' => $class_number++, //$faker->randomDigitNotNull,
+        'school_id'    => function() use ($faker) {
+            if (School::count())
+                return $faker->randomElement(School::pluck('id')->toArray());
+            else return factory(School::class)->create()->id;
+        },
+        'group'        => function() use ($class_number, $faker) {
+            $element = $faker->randomElement(['science', 'commerce', 'arts']);
+            return ($class_number > 8) ? $element : "";
+        }
+    ];
 });

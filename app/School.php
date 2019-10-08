@@ -2,7 +2,7 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Model;
 
 class School extends Model
 {
@@ -23,5 +23,10 @@ class School extends Model
   public function departments()
   {
     return $this->hasMany('App\Department');
+  }
+
+  public function gradesystems()
+  {
+    return $this->hasMany('App\Gradesystem');
   }
 }
